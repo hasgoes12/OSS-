@@ -22,3 +22,28 @@ print(X_train.shape)
 print(X_test.shape)
 print(diabetes.feature_names) #데이터 셋의 변수 이름
 
+#선형회귀 모델 작성
+import numpy as np
+# from sklearn.linear_model import LinearRegression
+class LinearRegression():
+  def __init__(self,learning_rate = 0.01, epochs = 1000):
+    self.learning_rate = learning_rate
+    self.w = None #모델의 가중치 초기 값
+    self.b = None #모델의 바이어스 초기 값
+    self.epochs = epochs
+
+  def predict(self,X):
+      return np.dot(X, self.w) + self.b
+      
+  def fit(self, X_train, y_train):
+    N,M = X_train.shape
+    self.w = np.zeros(M) # 모델 가중치 초기화
+    self.b = 0.0 #바이어스 초기화
+    
+    for epoch in range(self.epochs): #경사 하강법
+      y_pred = self.predict(X_train)
+      error = y_pred - y_train
+      dw = (2 / N) * np.dot(X_train.T, error)
+      db = (2 / N) * np.sum(error)
+      self.w -= self.learning_rate * dw
+      self.b -= self.learning_rate * db
