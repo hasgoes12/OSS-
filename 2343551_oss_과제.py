@@ -18,9 +18,6 @@ y = diabetes.target
 #train 데이터와 test 데이터를 80:20으로 분할.
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
 
-print(X_train.shape)
-print(X_test.shape)
-print(diabetes.feature_names) #데이터 셋의 변수 이름
 
 #선형회귀 모델 작성
 import numpy as np
@@ -47,3 +44,14 @@ class LinearRegression():
       db = (2 / N) * np.sum(error)
       self.w -= self.learning_rate * dw
       self.b -= self.learning_rate * db
+
+model = LinearRegression(learning_rate= 0.01, epochs= 1000)
+model.fit(X_train, y_train) #모델 학습
+
+y_pred = model.predict(X_test) #예측
+
+from sklearn.metrics import mean_squared_error
+
+MSE = mean_squared_error(y_test, y_pred)
+
+print(f"MSE : {MSE:.2f}")
