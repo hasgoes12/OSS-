@@ -21,13 +21,14 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
 
 #선형회귀 모델 작성
 import numpy as np
-# from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression
 class LinearRegression():
   def __init__(self,learning_rate = 0.01, epochs = 1000):
     self.learning_rate = learning_rate
     self.w = None #모델의 가중치 초기 값
     self.b = None #모델의 바이어스 초기 값
     self.epochs = epochs
+    self.loss_list = []
 
   def predict(self,X):
       return np.dot(X, self.w) + self.b
@@ -44,14 +45,19 @@ class LinearRegression():
       db = (2 / N) * np.sum(error)
       self.w -= self.learning_rate * dw
       self.b -= self.learning_rate * db
+      loss = np.mean(error**2)
+      self.loss_list.append(loss)
 
 model = LinearRegression(learning_rate= 0.1, epochs= 5000)
 model.fit(X_train, y_train) #모델 학습
 
 y_pred = model.predict(X_test) #예측
 
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, r2_score
 
 MSE = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
 
 print(f"MSE : {MSE:.2f}")
+print(f"결정 계수: {r2:.2f}")
+print(f"Loss : ", model.loss_list[-1])
