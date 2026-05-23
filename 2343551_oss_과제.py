@@ -45,7 +45,7 @@ class LinearRegression():
       self.w -= self.learning_rate * dw
       self.b -= self.learning_rate * db
 
-model = LinearRegression(learning_rate= 0.01, epochs= 1000)
+model = LinearRegression(learning_rate= 0.1, epochs= 5000)
 model.fit(X_train, y_train) #모델 학습
 
 y_pred = model.predict(X_test) #예측
